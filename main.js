@@ -6,7 +6,7 @@ var CuongbokAvt = document.getElementById('avt');
   var CuongbokLinkMes = document.getElementById('linkMes');
   var CuongbokLinkTiktok = document.getElementById('linkTiktok');
   
-  if(avt.length == 0){avt='https://scontent.xx.fbcdn.net/v/t1.15752-9/277255064_1029667641308838_6102485090752912486_n.jpg?_nc_cat=102&ccb=1-5&_nc_sid=aee45a&_nc_ohc=7iEzgx5LqRQAX_VczFo&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVLDTEzOoc3tFq3b-8UCu_e9IR-CbY4pYrvMOWHlym23Hw&oe=6270468F'}
+  if(avt.length == 0){avt='GROUP 1.gif'}
 
 var listSocial = document.getElementsByClassName('listSocial');
 if( linkFb.length == 0){ listSocial[0].style.display = 'none'; listSocial[1].style.width = '50%'; listSocial[2].style.width = '50%'}
