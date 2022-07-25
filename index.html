@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ét Ô Ét</title>
+    <link rel="stylesheet" href="css/typo/typo.css" />
+    <link rel="stylesheet" href="css/hc-canvas-luckwheel.css" />
+    <style>
+      .hc-luckywheel{
+        position:fixed;
+        top: 50%;
+        left: 50%;
+        margin-top: -250px;
+        margin-left: -250px;
+      }
+    </style>
+  </head>
+  <body class="bg">
+    <div class="wrapper typo" id="wrapper">
+      <section id="luckywheel" class="hc-luckywheel">
+        <div class="hc-luckywheel-container">
+          <canvas class="hc-luckywheel-canvas" width="500px" height="500px"
+            >Vòng Xoay May Mắn</canvas
+          >
+        </div>
+        <a class="hc-luckywheel-btn" href="javascript:;">Xoay</a>
+      </section>
+    </div>
+</style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="js/hc-canvas-luckwheel.js"></script>
+    <script>
+      var isPercentage = true;
+      var prizes = [
+              {
+                text: "Iphone 12 box",
+                img: "https://p.turbosquid.com/ts-thumb/ab/6zLSIH/Od/12box50001/png/1627377683/600x600/fit_q87/d6d2e4004cd1f71a2582e50f79b766625e06d229/12box50001.jpg",
+                number: 1, // 1%,
+                percentpage: 0.2 // 1%
+              },
+              {
+                text: "iPhone 13 box",
+                img: "https://www.tilifony.com/content/media/large/adf5bd5f-iphone-13-box-content.png",
+                number: 1,
+                percentpage: 0.2 // 5%
+              },
+              {
+                text: "Macbook Air M1 box",
+                img: "https://masta.vn/wp-content/uploads/2020/11/macbook-air_gold-rose-chay-m1.jpg",
+                number : 1,
+                percentpage: 0.2 // 10%
+              },
+              {
+                text: "Ipad box",
+                img: "https://i.ytimg.com/vi/fHwFkYZi-uQ/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA6bpD-Mb605tuadlKJPqqP9rCrWA",
+                number: 1,
+                percentpage: 0.2 // 24%
+              },
+              {
+                text: "Cục kẹo",
+                img: "https://cdn.pixabay.com/photo/2020/01/29/19/10/lollypop-4803370_960_720.png",
+                number: 1,
+                percentpage: 0.2 // 60%
+              },
+            ];
+      document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+          hcLuckywheel.init({
+            id: "luckywheel",
+            config: function(callback) {
+              callback &&
+                callback(prizes);
+            },
+            mode : "both",
+            getPrize: function(callback) {
+              var rand = randomIndex(prizes);
+              var chances = rand;
+              callback && callback([rand, chances]);
+            },
+            gotBack: function(data) {
+              if(data == null){
+                Swal.fire(
+                  'Chương trình kết thúc',
+                  'Đã hết phần thưởng',
+                  'error'
+                )
+              } else if (data == 'Chúc bạn may mắn lần sau'){
+                Swal.fire(
+                  'Bạn không trúng thưởng',
+                  data,
+                  'error'
+                )
+              } else{
+                Swal.fire(
+                  'Đã trúng giải',
+                  data,
+                  'success'
+                )
+              }
+            }
+          });
+        },
+        false
+      );
+      function randomIndex(prizes){
+        if(isPercentage){
+          var counter = 1;
+          for (let i = 0; i < prizes.length; i++) {
+            if(prizes[i].number == 0){
+              counter++
+            }
+          }
+          if(counter == prizes.length){
+            return null
+          }
+          let rand = Math.random();
+          let prizeIndex = null;
+          console.log(rand);
+          switch (true) {
+            case rand < prizes[4].percentpage:
+              prizeIndex = 4 ;
+              break;
+            case rand < prizes[4].percentpage + prizes[3].percentpage:
+              prizeIndex = 3;
+              break;
+            case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage:
+              prizeIndex = 2;
+              break;
+            case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage + prizes[1].percentpage:
+              prizeIndex = 1;
+              break;  
+            case rand < prizes[4].percentpage + prizes[3].percentpage + prizes[2].percentpage + prizes[1].percentpage  + prizes[0].percentpage:
+              prizeIndex = 0;
+              break;  
+          }
+          if(prizes[prizeIndex].number != 0){
+            prizes[prizeIndex].number = prizes[prizeIndex].number - 1
+            return prizeIndex
+          }else{
+            return randomIndex(prizes)
+          }
+        }else{
+          var counter = 0;
+          for (let i = 0; i < prizes.length; i++) {
+            if(prizes[i].number == 0){
+              counter++
+            }
+          }
+          if(counter == prizes.length){
+            return null
+          }
+          var rand = (Math.random() * (prizes.length)) >>> 0;
+          if(prizes[rand].number != 0){
+            prizes[rand].number = prizes[rand].number - 1
+            return rand
+          }else{
+            return randomIndex(prizes)
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
